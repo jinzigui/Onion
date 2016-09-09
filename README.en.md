@@ -3,7 +3,7 @@
 
 ###A network library implemented in C++11
 
-###Name comes from a song named Crazy Onion in `Demolition` that Jack- starring
+###Name comes from a song named `Crazy Onion` in `Demolition` that `Jake-Gyllenhaal` starring
 
 ####Goals
 	- Delicately and elegantly implemented in C++11
