@@ -24,11 +24,19 @@ class IPAddress
 	public:
 		static const int IPv4 = 4;
 
+		IPAddress() = default;
+
 		IPAddress(const char *address);
+		IPAddress(uint32_t address);
+
+		IPAddress(const IPAddress &address) = default;
+		IPAddress& operator=(const IPAddress &address) = default;
 
 		void Clear() { address_.clear(); }
 		void Resize(size_t size) { address_.resize(size); }
 		void Print() const;
+		bool StrToNum(const char *address);
+		void NumToStr(std::string &address) const;
 
 		std::vector<uint8_t>& Address() { return address_; }
 		const std::vector<uint8_t>& Address() const { return address_; }

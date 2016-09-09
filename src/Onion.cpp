@@ -7,18 +7,15 @@
  *    > Created Time: 2016-09-08 11:18:49
 **/
 
-#include "util/socket.hpp"
+#include "test/tests.hpp"
 
 using namespace Onion;
 using namespace util;
+using namespace test;
 
 int main(int argc, char **argv)
 {
-	ListenSocket listensocket;
-	if (!listensocket.Create()) return -1;
-	if (!listensocket.Listen()) return -1;
-	TcpSocket socket;
-	EndPoint endpoint(IPAddress("127.0.0.1"), 8000);
-	if (!listensocket.Accept(&socket, endpoint)) return -1;
+	// LogTest();
+	SocketTest();
 	return 0;
 }

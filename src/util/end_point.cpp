@@ -9,6 +9,7 @@
 
 #include <netinet/in.h>
 #include <string.h>
+#include <iostream>
 
 #include "end_point.hpp"
 
@@ -25,7 +26,7 @@ bool EndPoint::SetAddressTo(struct sockaddr &sockaddr, socklen_t &len) const
 			len = sizeof(struct sockaddr_in);
 			auto in_address = reinterpret_cast<struct sockaddr_in *>(&sockaddr);
 			in_address->sin_family = AF_INET;
-			in_address->sin_port = port_;
+			in_address->sin_port = htons(port_);
 			memcpy(&in_address->sin_addr, &address_.Address()[0], IPAddress::IPv4);
 			break;
 		}
@@ -56,6 +57,12 @@ bool EndPoint::SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t l
 			return error();
 	}
 	return true;
+}
+
+void EndPoint::Print() const
+{
+	address_.Print();
+	std::cout << "端口: "<< port_ << std::endl;
 }
 
 } // namespace util

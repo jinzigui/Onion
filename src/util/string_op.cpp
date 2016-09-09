@@ -1,7 +1,7 @@
 /**
  *    > Author:   UncP
  *    > Mail:     770778010@qq.com
- *    > Github:	  https://www.github.com/UncP
+ *    > Github:	  https://www.github.com/UncP/Onion
  *    > Description:
  *
  *    > Created Time: 2016-09-08 21:05:11
@@ -23,6 +23,8 @@ std::vector<std::string> StringOperation::SplitByChar(const std::string &str, co
 			start = i + 1;
 		}
 	}
+	if ((str.begin() + start) != str.end())
+		res.push_back(std::string(str.begin() + start, str.end()));
 	return std::move(res);
 }
 

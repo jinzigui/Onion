@@ -1,0 +1,102 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Accept	util/socket.cpp	/^bool ListenSocket::Accept(Socket *socket, EndPoint &endpoint, bool restart)$/;"	f	class:Onion::util::ListenSocket
+Address	util/ip_address.hpp	/^		const std::vector<uint8_t>& Address() const { return address_; }$/;"	f	class:Onion::util::IPAddress
+Address	util/ip_address.hpp	/^		std::vector<uint8_t>& Address() { return address_; }$/;"	f	class:Onion::util::IPAddress
+Bind	util/socket.cpp	/^bool Socket::Bind(const EndPoint &endpoint)$/;"	f	class:Onion::util::Socket
+CPP	Makefile	/^CPP 		 = g++$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS = -std=c++11 -Wall -O$/;"	m
+Clear	util/ip_address.hpp	/^		void Clear() { address_.clear(); }$/;"	f	class:Onion::util::IPAddress
+Close	util/socket.cpp	/^bool Socket::Close()$/;"	f	class:Onion::util::Socket
+Connect	util/socket.cpp	/^bool DataSocket::Connect(const EndPoint &endpoint)$/;"	f	class:Onion::util::DataSocket
+Create	util/socket.cpp	/^bool Socket::Create(int domain, int type, int protocol)$/;"	f	class:Onion::util::Socket
+Create	util/socket.hpp	/^		bool Create() { return Socket::Create(AF_INET, SOCK_STREAM, 0); }$/;"	f	class:Onion::util::ListenSocket
+DIR	Makefile	/^DIR=util test$/;"	m
+DataSocket	util/socket.hpp	/^class DataSocket : public Socket$/;"	c	namespace:Onion::util
+EndPoint	util/end_point.hpp	/^		EndPoint(const IPAddress &address, uint16_t port):address_(address), port_(port) { }$/;"	f	class:Onion::util::EndPoint
+EndPoint	util/end_point.hpp	/^class EndPoint$/;"	c	namespace:Onion::util
+FATAL	util/log.hpp	23;"	d
+Family	util/ip_address.cpp	/^int IPAddress::Family() const$/;"	f	class:Onion::util::IPAddress
+Fatal	util/log.hpp	/^		enum LogLevel {Info, Warning, Fatal, None};$/;"	e	enum:Onion::util::Logger::LogLevel
+GetLogger	util/log.cpp	/^Logger& Logger::GetLogger()$/;"	f	class:Onion::util::Logger
+INFO	util/log.hpp	21;"	d
+IPAddress	util/ip_address.cpp	/^IPAddress::IPAddress(const char *address)$/;"	f	class:Onion::util::IPAddress
+IPAddress	util/ip_address.hpp	/^class IPAddress$/;"	c	namespace:Onion::util
+IPv4	util/ip_address.hpp	/^		static const int IPv4 = 4;$/;"	m	class:Onion::util::IPAddress
+Info	util/log.hpp	/^		enum LogLevel {Info, Warning, Fatal, None};$/;"	e	enum:Onion::util::Logger::LogLevel
+IsValid	util/socket.hpp	/^		bool IsValid() const { return fd_ != -1; }$/;"	f	class:Onion::util::Socket
+Listen	util/socket.hpp	/^		bool Listen(int backlog = 1024) { return listen(fd(), backlog) == 0; }$/;"	f	class:Onion::util::ListenSocket
+ListenSocket	util/socket.hpp	/^class ListenSocket : public Socket$/;"	c	namespace:Onion::util
+Log	util/log.cpp	/^void Logger::Log(	LogLevel level, const char *file, int line, const char *fun,$/;"	f	class:Onion::util::Logger
+LogLevel	util/log.hpp	/^		enum LogLevel {Info, Warning, Fatal, None};$/;"	g	class:Onion::util::Logger
+LogString	util/log.cpp	/^const char *Logger::LogString[3] = {$/;"	m	class:Onion::util::Logger	file:
+LogString	util/log.hpp	/^		static const char *LogString[3];$/;"	m	class:Onion::util::Logger
+LogTest	test/log_test.cpp	/^void LogTest()$/;"	f	namespace:Onion::test
+Logger	util/log.cpp	/^Logger::Logger(const char *file)$/;"	f	class:Onion::util::Logger
+Logger	util/log.hpp	/^class Logger$/;"	c	namespace:Onion::util
+None	util/log.hpp	/^		enum LogLevel {Info, Warning, Fatal, None};$/;"	e	enum:Onion::util::Logger::LogLevel
+NumToStr	util/ip_address.cpp	/^void IPAddress::NumToStr(std::string &address) const$/;"	f	class:Onion::util::IPAddress
+OBJ	Makefile	/^OBJ=util\/log.o util\/string_op.o util\/ip_address.o util\/end_point.o util\/socket.o \\$/;"	m
+Onion	test/log_test.cpp	/^namespace Onion {$/;"	n	file:
+Onion	test/socket_test.cpp	/^namespace Onion {$/;"	n	file:
+Onion	test/tests.hpp	/^namespace Onion {$/;"	n
+Onion	util/end_point.cpp	/^namespace Onion {$/;"	n	file:
+Onion	util/end_point.hpp	/^namespace Onion {$/;"	n
+Onion	util/ip_address.cpp	/^namespace Onion {$/;"	n	file:
+Onion	util/ip_address.hpp	/^namespace Onion {$/;"	n
+Onion	util/log.cpp	/^namespace Onion {$/;"	n	file:
+Onion	util/log.hpp	/^namespace Onion {$/;"	n
+Onion	util/socket.cpp	/^namespace Onion {$/;"	n	file:
+Onion	util/socket.hpp	/^namespace Onion {$/;"	n
+Onion	util/string_op.cpp	/^namespace Onion {$/;"	n	file:
+Onion	util/string_op.hpp	/^namespace Onion {$/;"	n
+Print	util/end_point.cpp	/^void EndPoint::Print() const$/;"	f	class:Onion::util::EndPoint
+Print	util/ip_address.cpp	/^void IPAddress::Print() const$/;"	f	class:Onion::util::IPAddress
+Print	util/socket.cpp	/^void Socket::Print() const$/;"	f	class:Onion::util::Socket
+Resize	util/ip_address.hpp	/^		void Resize(size_t size) { address_.resize(size); }$/;"	f	class:Onion::util::IPAddress
+SetAddressFrom	util/end_point.cpp	/^bool EndPoint::SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t len)$/;"	f	class:Onion::util::EndPoint
+SetAddressTo	util/end_point.cpp	/^bool EndPoint::SetAddressTo(struct sockaddr &sockaddr, socklen_t &len) const$/;"	f	class:Onion::util::EndPoint
+SetFd	util/socket.cpp	/^void Socket::SetFd(int fd)$/;"	f	class:Onion::util::Socket
+Socket	util/socket.hpp	/^		Socket():fd_(-1) { }$/;"	f	class:Onion::util::Socket
+Socket	util/socket.hpp	/^class Socket$/;"	c	namespace:Onion::util
+SocketTest	test/socket_test.cpp	/^void SocketTest()$/;"	f	namespace:Onion::test
+SplitByChar	util/string_op.cpp	/^std::vector<std::string> StringOperation::SplitByChar(const std::string &str, const char c)$/;"	f	class:Onion::util::StringOperation
+StrToNum	util/ip_address.cpp	/^bool IPAddress::StrToNum(const char *address)$/;"	f	class:Onion::util::IPAddress
+StringOperation	util/string_op.hpp	/^class StringOperation$/;"	c	namespace:Onion::util
+TcpSocket	util/socket.hpp	/^class TcpSocket : public DataSocket$/;"	c	namespace:Onion::util
+WARNING	util/log.hpp	22;"	d
+Warning	util/log.hpp	/^		enum LogLevel {Info, Warning, Fatal, None};$/;"	e	enum:Onion::util::Logger::LogLevel
+_ENDPOINT_HPP_	util/end_point.hpp	11;"	d
+_IPADDRESS_HPP_	util/ip_address.hpp	11;"	d
+_LOG_HPP_	util/log.hpp	11;"	d
+_SOCKET_HPP_	util/socket.hpp	11;"	d
+_STRINGOP_HPP_	util/string_op.hpp	11;"	d
+_TESTS_HPP_	test/tests.hpp	11;"	d
+address	util/ip_address.hpp	/^		IPAddress& operator=(const IPAddress &address) = default;$/;"	m	class:Onion::util::IPAddress
+address	util/ip_address.hpp	/^		IPAddress(const IPAddress &address) = default;$/;"	m	class:Onion::util::IPAddress
+address_	util/end_point.hpp	/^		IPAddress  address_;$/;"	m	class:Onion::util::EndPoint
+address_	util/ip_address.hpp	/^		std::vector<uint8_t> address_;$/;"	m	class:Onion::util::IPAddress
+fd	util/socket.hpp	/^		int fd() const { return fd_; }$/;"	f	class:Onion::util::Socket
+fd_	util/socket.hpp	/^		int fd_;$/;"	m	class:Onion::util::Socket
+log	util/log.hpp	19;"	d
+main	Onion.cpp	/^int main(int argc, char **argv)$/;"	f
+out_	util/log.hpp	/^		std::ofstream      out_;$/;"	m	class:Onion::util::Logger
+port_	util/end_point.hpp	/^		uint16_t   port_;$/;"	m	class:Onion::util::EndPoint
+test	test/log_test.cpp	/^namespace test {$/;"	n	namespace:Onion	file:
+test	test/socket_test.cpp	/^namespace test {$/;"	n	namespace:Onion	file:
+test	test/tests.hpp	/^namespace test {$/;"	n	namespace:Onion
+util	util/end_point.cpp	/^namespace util {$/;"	n	namespace:Onion	file:
+util	util/end_point.hpp	/^namespace util {$/;"	n	namespace:Onion
+util	util/ip_address.cpp	/^namespace util {$/;"	n	namespace:Onion	file:
+util	util/ip_address.hpp	/^namespace util {$/;"	n	namespace:Onion
+util	util/log.cpp	/^namespace util {$/;"	n	namespace:Onion	file:
+util	util/log.hpp	/^namespace util {$/;"	n	namespace:Onion
+util	util/socket.cpp	/^namespace util {$/;"	n	namespace:Onion	file:
+util	util/socket.hpp	/^namespace util {$/;"	n	namespace:Onion
+util	util/string_op.cpp	/^namespace util {$/;"	n	namespace:Onion	file:
+util	util/string_op.hpp	/^namespace util {$/;"	n	namespace:Onion
+~Socket	util/socket.hpp	/^		virtual ~Socket() { };$/;"	f	class:Onion::util::Socket

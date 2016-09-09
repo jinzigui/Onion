@@ -21,11 +21,14 @@ namespace util {
 class EndPoint
 {
 	public:
+		EndPoint() = default;
 
 		EndPoint(const IPAddress &address, uint16_t port):address_(address), port_(port) { }
 
 		bool SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t len);
 		bool SetAddressTo(struct sockaddr &sockaddr, socklen_t &len) const;
+
+		void Print() const;
 
 	private:
 		IPAddress  address_;
