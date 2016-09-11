@@ -15,7 +15,7 @@ using namespace test;
 
 int main(int argc, char **argv)
 {
-	// LogTest();
-	SocketTest();
+	LogTest();
+	// SocketTest();
 	return 0;
 }

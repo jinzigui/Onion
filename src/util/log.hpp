@@ -32,6 +32,8 @@ class Logger
 		void Log(LogLevel level, const char *file, int line, const char *fun, const char *fmt ...);
 		static Logger& GetLogger();
 
+		~Logger() { out_.close(); }
+
 	private:
 		static const char *LogString[3];
 

@@ -64,9 +64,9 @@ class DataSocket : public Socket
 	public:
 		bool Connect(const EndPoint &endpoint);
 
-		bool Send(const void *buf, size_t size, int flags = 0);
+		ssize_t Send(const void *buf, size_t size, int flags = 0);
 
-		bool Receive(void *buf, size_t size, int flags = 0);
+		ssize_t Receive(void *buf, size_t size, int flags = 0);
 };
 
 class TcpSocket : public DataSocket

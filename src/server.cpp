@@ -8,6 +8,7 @@
 **/
 
 #include <iostream>
+#include <string.h>
 
 #include "util/socket.hpp"
 #include "util/log.hpp"
@@ -40,10 +41,24 @@ int main()
 			WARNING("套接字接收失败 :(");
 			return -1;
 		}
-		std::cout << "connection from ";
+		listensocket.Close();
+		std::cout << "连接来自 ";
 		client.Print();
+		char recv[1024];
+		ssize_t len;
 		while (1) {
-
+			if ((len = socket.Receive(recv, 1024)) < 0) {
+				WARNING("接收失败 :(");
+				break;
+			} else if (!len) {
+				WARNING("客户端断开连接 :(");
+				break;
+			}
+			recv[len-1] = '\0';
+			printf("长度: %d\n", (int)len);
+			printf("内容: %s\n", recv);
+			if (socket.Send(recv, len) < 0)
+				WARNING("%s 发送失败 :(", send);
 		}
 		socket.Close();
 	}

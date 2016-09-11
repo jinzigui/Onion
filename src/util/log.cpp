@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include "log.hpp"
 
@@ -19,7 +20,8 @@ namespace util {
 
 Logger::Logger(const char *file)
 {
-
+	out_.open(file, std::ios::out | std::ios::trunc);
+	assert(out_.is_open());
 }
 
 Logger& Logger::GetLogger()
@@ -44,8 +46,12 @@ void Logger::Log(	LogLevel level, const char *file, int line, const char *fun,
 	va_end(args);
 	*ptr++ = '\n';
 	*ptr++ = '\0';
-	// out_ << buf;
-	std::cout << buf << std::endl;
+	out_ << buf;
+	if (out_.bad()) {
+		std::cerr << "日志I/O错误 :(\n";
+		exit(-1);
+	}
+	std::cerr << buf << std::endl;
 }
 
 } // namespace util

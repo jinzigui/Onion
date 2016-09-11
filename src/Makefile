@@ -1,9 +1,10 @@
 CPP 		 = g++
 CPPFLAGS = -std=c++11 -Wall -O
 
-DIR=util test
+DIR=util tcp test
 OBJ=util/log.o util/string_op.o util/ip_address.o util/end_point.o util/socket.o \
-		test/log_test.o test/socket_test.o
+		tcp/tcp_option.o tcp_client.o \
+		test/log_test.o test/socket_test.o \
 
 Onion:$(OBJ) Onion.cpp
 	$(CPP) $(CPPFLAGS) -o Onion $(OBJ) Onion.cpp
@@ -21,4 +22,4 @@ clean:
 	for dir in $(DIR); do \
 		(cd $$dir && rm *.o) || continue ; \
 	done
-	rm Onion
+	rm Onion log .tags

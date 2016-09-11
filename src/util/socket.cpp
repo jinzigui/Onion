@@ -85,27 +85,23 @@ bool DataSocket::Connect(const EndPoint &endpoint)
 	return connect(fd(), &sockaddr, len) == 0;
 }
 
-bool DataSocket::Send(const void *buf, size_t size, int flags)
+ssize_t DataSocket::Send(const void *buf, size_t size, int flags)
 {
 	for (;;) {
 		ssize_t len = send(fd(), buf, size, flags);
-		if (len > 0)
-			return true;
 		if (len == -1 && errno == EINTR)
 			continue;
-		return false;
+		return len;
 	}
 }
 
-bool DataSocket::Receive(void *buf, size_t size, int flags)
+ssize_t DataSocket::Receive(void *buf, size_t size, int flags)
 {
 	for (;;) {
 		ssize_t len = recv(fd(), buf, size, flags);
-		if (len > 0)
-			return true;
 		if (len == -1 && errno == EINTR)
 			continue;
-		return false;
+		return len;
 	}
 }
 
