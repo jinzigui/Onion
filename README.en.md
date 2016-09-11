@@ -6,6 +6,6 @@
 ####Name comes from a song named `Crazy Onion` in movie `Demolition` that `Jake-Gyllenhaal` starring
 
 ####Goals
-	- Delicately and elegantly implemented in C++11
-	- High performance
-	- Easy to extend
+- Delicately and elegantly implemented in C++11
+- High performance
+- Easy to extend
