@@ -10,8 +10,10 @@
 #ifndef _TESTS_HPP_
 #define _TESTS_HPP_
 
+#include <assert.h>
+
 #include "../util/log.hpp"
-#include "../util/socket.hpp"
+#include "../tcp/tcp_client.hpp"
 
 namespace Onion {
 
@@ -19,7 +21,7 @@ namespace test {
 
 void LogTest();
 
-void SocketTest();
+void ClientTest();
 
 } // namespace test
 

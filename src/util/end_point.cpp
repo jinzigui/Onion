@@ -59,10 +59,18 @@ bool EndPoint::SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t l
 	return true;
 }
 
+std::string EndPoint::ToString() const
+{
+	std::string res = address_.ToString();
+	char buf[16];
+	snprintf(buf, 16, "\n端口: %d", port_);
+	res += std::string(buf, buf + strlen(buf));
+	return std::move(res);
+}
+
 void EndPoint::Print() const
 {
-	address_.Print();
-	std::cout << "端口: "<< port_ << std::endl;
+	std::cout << ToString() << std::endl;
 }
 
 } // namespace util

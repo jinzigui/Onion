@@ -7,8 +7,10 @@
  *    > Created Time: 2016-09-10 14:47:24
 **/
 
-#ifndef _TCPOPTION_HPP_
-#define _TCPOPTION_HPP_
+#ifndef _TCP_OPTION_HPP_
+#define _TCP_OPTION_HPP_
+
+#include <iostream>
 
 namespace Onion {
 
@@ -19,6 +21,9 @@ class TcpOption
 	public:
 		TcpOption(size_t send_buffer_size = 4096, size_t recv_buffer_size = 4096)
 		:send_buffer_size_(send_buffer_size), recv_buffer_size_(recv_buffer_size) { }
+
+		TcpOption& operator=(const TcpOption &) = default;
+		TcpOption(const TcpOption &) = default;
 
 		size_t send_buffer_size() { return send_buffer_size_; }
 		size_t recv_buffer_size() { return recv_buffer_size_; }
@@ -32,4 +37,4 @@ class TcpOption
 
 } // namespace Onion
 
-#endif /* _TCPOPTION_HPP_ */
+#endif /* _TCP_OPTION_HPP_ */

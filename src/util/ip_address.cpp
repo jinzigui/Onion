@@ -64,11 +64,18 @@ int IPAddress::Family() const
 	}
 }
 
-void IPAddress::Print() const
+std::string IPAddress::ToString() const
 {
 	std::string address;
 	NumToStr(address);
-	std::cout << "IP: " << address << std::endl;
+	std::string res("IP: ");
+	res += address;
+	return std::move(res);
+}
+
+void IPAddress::Print() const
+{
+	std::cout << ToString() << std::endl;
 }
 
 } // namespace util

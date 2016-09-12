@@ -7,34 +7,47 @@
  *    > Created Time: 2016-09-10 14:54:31
 **/
 
-#ifndef _TCPCONNECTION_HPP_
-#define _TCPCONNECTION_HPP_
+#ifndef _TCP_CONNECTION_HPP_
+#define _TCP_CONNECTION_HPP_
+
+#include "../util/socket.hpp"
+#include "../util/buffer.hpp"
+#include "../util/end_point.hpp"
+#include "tcp_option.hpp"
 
 namespace Onion {
 
 namespace tcp {
 
+using namespace util;
+
 class TcpConnection
 {
 	public:
-		TcpConnection(const util::EndPoint &endpoint, const TcpOption &tcpoption= TcpOption())
-		:tcp_option_(tcpoption),
-		 send_buffer_(tcpoption_.send_buffer_size()), recv_buffer_(tcpoption_.recv_buffer_size()) { }
+		TcpConnection(const util::EndPoint &endpoint, const TcpOption &tcpoption);
 
-		bool SendPacket(const std::string &packet);
+		bool Connected() const { return connected_; }
 
-		bool ReceivePacket();
+		bool Send(const char *buf, size_t len);
+		bool Send(const char *buf);
+		bool Send(const std::string &buf);
+
+		const Buffer& SendBuffer() const { return send_buffer_; }
+		const Buffer& RecvBuffer() const { return recv_buffer_; }
+
+		bool Close();
 
 	private:
+		bool      connected_;
 		TcpOption tcp_option_;
-		util::EndPoint end_point_;
-		util::TcpSocket socket_;
-		util::Buffer send_buffer_;
-		util::Buffer recv_buffer_;
+		EndPoint  end_point_;
+		TcpSocket socket_;
+		Buffer    send_buffer_;
+		Buffer    recv_buffer_;
 };
 
 } // namespace tcp
 
 } // namespace Onion
 
-#endif /* _TCPCONNECTION_HPP_ */
+#endif /* _TCP_CONNECTION_HPP_ */

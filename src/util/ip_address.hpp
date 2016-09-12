@@ -35,8 +35,8 @@ class IPAddress
 		void Clear() { address_.clear(); }
 		void Resize(size_t size) { address_.resize(size); }
 		void Print() const;
-		bool StrToNum(const char *address);
-		void NumToStr(std::string &address) const;
+
+		std::string ToString() const;
 
 		std::vector<uint8_t>& Address() { return address_; }
 		const std::vector<uint8_t>& Address() const { return address_; }
@@ -44,6 +44,9 @@ class IPAddress
 
 	private:
 		std::vector<uint8_t> address_;
+
+		bool StrToNum(const char *address);
+		void NumToStr(std::string &address) const;
 };
 
 } // namespace util

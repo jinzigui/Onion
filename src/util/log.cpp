@@ -51,7 +51,8 @@ void Logger::Log(	LogLevel level, const char *file, int line, const char *fun,
 		std::cerr << "日志I/O错误 :(\n";
 		exit(-1);
 	}
-	std::cerr << buf << std::endl;
+	if (level > Info)
+		std::cerr << buf << std::endl;
 }
 
 } // namespace util

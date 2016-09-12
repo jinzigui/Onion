@@ -11,6 +11,7 @@
 #define _ENDPOINT_HPP_
 
 #include <sys/socket.h>
+#include <string>
 
 #include "ip_address.hpp"
 
@@ -28,7 +29,11 @@ class EndPoint
 		bool SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t len);
 		bool SetAddressTo(struct sockaddr &sockaddr, socklen_t &len) const;
 
+		EndPoint(const EndPoint &endpoint) = default;
+		EndPoint& operator=(const EndPoint &endpoint) = default;
+
 		void Print() const;
+		std::string ToString() const;
 
 	private:
 		IPAddress  address_;

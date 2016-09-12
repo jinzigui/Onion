@@ -2,9 +2,10 @@ CPP 		 = g++
 CPPFLAGS = -std=c++11 -Wall -O
 
 DIR=util tcp test
-OBJ=util/log.o util/string_op.o util/ip_address.o util/end_point.o util/socket.o \
-		tcp/tcp_option.o tcp_client.o \
-		test/log_test.o test/socket_test.o \
+OBJ=util/log.o util/string_op.o util/buffer.o util/ip_address.o util/end_point.o util/socket.o \
+		tcp/connection_id.o tcp/tcp_option.o tcp/tcp_connection.o tcp/tcp_client.o tcp/tcp_server.o \
+		tcp/event.o tcp/poller.o tcp/select_poller.o \
+		test/log_test.o test/client_test.o \
 
 Onion:$(OBJ) Onion.cpp
 	$(CPP) $(CPPFLAGS) -o Onion $(OBJ) Onion.cpp
