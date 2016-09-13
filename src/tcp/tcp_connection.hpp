@@ -14,6 +14,7 @@
 #include "../util/buffer.hpp"
 #include "../util/end_point.hpp"
 #include "tcp_option.hpp"
+#include "func.hpp"
 
 namespace Onion {
 
@@ -32,6 +33,9 @@ class TcpConnection
 		bool Send(const char *buf);
 		bool Send(const std::string &buf);
 
+		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
+		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
+
 		const Buffer& SendBuffer() const { return send_buffer_; }
 		const Buffer& RecvBuffer() const { return recv_buffer_; }
 
@@ -44,6 +48,9 @@ class TcpConnection
 		TcpSocket socket_;
 		Buffer    send_buffer_;
 		Buffer    recv_buffer_;
+
+		OnSendCallBack on_send_ = nullptr;
+		OnSendCallBack on_recv_ = nullptr;
 };
 
 } // namespace tcp

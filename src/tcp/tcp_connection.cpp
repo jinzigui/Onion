@@ -39,6 +39,7 @@ bool TcpConnection::Send(const char *buf, size_t len)
 	send_buffer_.Read(buf, len);
 	if (socket_.Send(buf, len) < 0)
 		return false;
+	on_send_(len);
 	return true;
 }
 

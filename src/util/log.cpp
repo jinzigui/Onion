@@ -26,7 +26,7 @@ Logger::Logger(const char *file)
 
 Logger& Logger::GetLogger()
 {
-	static Logger logger("log");
+	static Logger logger("logging");
 	return logger;
 }
 

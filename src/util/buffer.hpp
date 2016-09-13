@@ -11,6 +11,7 @@
 #define _BUFFER_HPP_
 
 #include <string>
+#include <assert.h>
 
 namespace Onion {
 
@@ -19,14 +20,21 @@ namespace util {
 class Buffer
 {
 	public:
-		Buffer() = default;
+		Buffer():buffer_(nullptr) { }
 		Buffer(size_t capacity):buffer_(new char[capacity]), length_(0), capacity_(capacity) { }
 
 		Buffer& operator=(const Buffer &) = delete;
 		Buffer(const Buffer &) = delete;
 
+		char* Char() { return buffer_; }
 		const char* Char() const { return buffer_; }
+
 		size_t Length() const { return length_; }
+
+		void SetLength(size_t length) {
+			assert(length < capacity_);
+			length_ = length;
+		}
 		size_t Capacity() const { return capacity_; }
 
 		bool Read(const char *buf, size_t len);
@@ -34,11 +42,15 @@ class Buffer
 
 		void Swap(Buffer &buffer) {
 			std::swap(buffer_, buffer.buffer_);
+			std::swap(begin_, buffer.begin_);
+			std::swap(end_, buffer.end_);
 			std::swap(length_, buffer.length_);
 			std::swap(capacity_, buffer.capacity_);
 		}
 
-		~Buffer() { delete [] buffer_; }
+		~Buffer() {
+			if (buffer_) delete [] buffer_;
+		}
 
 	private:
 		char  *buffer_;

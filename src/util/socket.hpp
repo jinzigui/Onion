@@ -56,7 +56,7 @@ class ListenSocket : public Socket
 
 		bool Listen(int backlog = 1024) { return listen(fd(), backlog) == 0; }
 
-		bool Accept(Socket *socket, EndPoint &endpoint, bool restart = true);
+		bool Accept(Socket &socket, EndPoint &endpoint, bool restart = true);
 };
 
 class DataSocket : public Socket

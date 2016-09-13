@@ -10,6 +10,8 @@
 #ifndef _EVENT_HPP_
 #define _EVENT_HPP_
 
+#include <string>
+
 namespace Onion {
 
 namespace tcp {
@@ -17,18 +19,29 @@ namespace tcp {
 class Event
 {
 	public:
-		enum Type { kNone, kRead, kWrite, kClose };
+		enum Type { kRead    = 0x1,
+								kWrite   = 0x2,
+								kExcept  = 0x4
+							};
 
-		Event():fd_(-1) { }
-
-		Event(int fd):fd_(fd) { }
+		Event(int fd, int type):fd_(fd), type_(type) { }
 
 		Event& operator=(const Event &event) = default;
 
+		std::string ToString() const {
+			char res[32];
+			snprintf(res, 32, "fd %d, type %s", fd_, type_ == kRead ? "读" :
+																							(type_ == kWrite ? "写" : "Other"));
+			return std::string(res);
+		}
+
 		int fd() const { return fd_; }
+
+		int type() const { return type_; }
 
 	private:
 		int fd_;
+		int type_;
 
 };
 

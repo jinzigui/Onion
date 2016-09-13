@@ -19,6 +19,11 @@ namespace tcp {
 class Poller
 {
 	public:
+		static const int MaxFd = 1024;
+
+		Poller() = default;
+		virtual int  Poll() = 0;
+		virtual bool HasEvent(const Event &event) = 0;
 		virtual bool AddEvent(const Event &event) = 0;
 		virtual bool ModifyEvent(const Event &event) = 0;
 		virtual bool RemoveEvent(const Event &event) = 0;

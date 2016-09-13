@@ -57,15 +57,14 @@ bool ListenSocket::Bind(const EndPoint &endpoint)
 	return bind(fd(), &sockaddr, len) == 0;
 }
 
-bool ListenSocket::Accept(Socket *socket, EndPoint &endpoint, bool restart)
+bool ListenSocket::Accept(Socket &socket, EndPoint &endpoint, bool restart)
 {
-	assert(socket);
 	struct sockaddr sockaddr;
 	socklen_t len = sizeof(sockaddr);
 	for (;;) {
 		int ret = accept(fd(), &sockaddr, &len);
 		if (ret != -1) {
-			socket->SetFd(ret);
+			socket.SetFd(ret);
 			endpoint.SetAddressFrom(sockaddr, len);
 			return true;
 		} else if (!restart) {

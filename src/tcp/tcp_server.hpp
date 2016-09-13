@@ -10,8 +10,13 @@
 #ifndef _TCP_SERVER_HPP_
 #define _TCP_SERVER_HPP_
 
+#include <memory>
+
 #include "../util/log.hpp"
 #include "../util/socket.hpp"
+#include "../util/buffer.hpp"
+#include "poller.hpp"
+#include "func.hpp"
 
 namespace Onion {
 
@@ -22,15 +27,28 @@ using namespace util;
 class TcpServer
 {
 	public:
-		TcpServer(const EndPoint &endpoint):end_point_(endpoint) { }
+		TcpServer(const EndPoint &endpoint);
 
+		bool Start();
+
+		bool Serve();
+
+		bool Shut();
+
+		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
+		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
 
 	private:
 		ListenSocket listen_socket_;
-		TcpSocket    serve_scoket_;
 		EndPoint     end_point_;
 
-		bool Init();
+		Buffer send_buffer_;
+		Buffer recv_buffer_;
+
+		std::unique_ptr<Poller> poller_;
+
+		OnSendCallBack on_send_ = nullptr;
+		OnSendCallBack on_recv_ = nullptr;
 };
 
 } // namespace tcp

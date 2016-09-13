@@ -4,13 +4,13 @@
  *    > Github:	  https://www.github.com/UncP/Onion
  *    > Description:
  *
- *    > Created Time: 2016-09-12 20:46:58
+ *    > Created Time: 2016-09-13 19:33:36
 **/
 
-#ifndef _SELECT_POLLER_HPP_
-#define _SELECT_POLLER_HPP_
+#ifndef _POLL_POLLER_HPP_
+#define _POLL_POLLER_HPP_
 
-#include <unistd.h>
+#include <poll.h>
 
 #include "poller.hpp"
 
@@ -18,14 +18,10 @@ namespace Onion {
 
 namespace tcp {
 
-class SelectPoller : public Poller
+class PollPoller : public Poller
 {
 	public:
-		SelectPoller():max_fd_(-1) {
-			FD_ZERO(&read_fds_);
-			FD_ZERO(&write_fds_);
-			FD_ZERO(&except_fds_);
-		}
+		PollPoller():index_(0) { }
 
 		int  Poll() override;
 
@@ -38,14 +34,12 @@ class SelectPoller : public Poller
 		bool RemoveEvent(const Event &event) override;
 
 	private:
-		int    max_fd_;
-		fd_set read_fds_;
-		fd_set write_fds_;
-		fd_set except_fds_;
+		int index_;
+		struct pollfd poll_fds_[Poller::MaxFd];
 };
 
 } // namespace tcp
 
 } // namespace Onion
 
-#endif /* _SELECT_POLLER_HPP_ */
+#endif /* _POLL_POLLER_HPP_ */
