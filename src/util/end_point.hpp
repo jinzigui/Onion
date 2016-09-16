@@ -32,6 +32,14 @@ class EndPoint
 		EndPoint(const EndPoint &endpoint) = default;
 		EndPoint& operator=(const EndPoint &endpoint) = default;
 
+		bool operator==(const EndPoint &endpoint) const {
+			return address_ == endpoint.address_ && port_ == endpoint.port_;
+		}
+
+		bool operator!=(const EndPoint &endpoint) const {
+			return !operator==(endpoint);
+		}
+
 		void Print() const;
 		std::string ToString() const;
 

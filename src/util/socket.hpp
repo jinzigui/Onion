@@ -34,6 +34,8 @@ class Socket
 
 		bool Close();
 
+		bool Bind(const EndPoint &endpoint);
+
 		template<typename T>
 		bool GetSockOpt(int level, int optname, T *optval, socklen_t *optlen) const {
 			return getsockopt(fd(), level, optname, optval, optlen) == 0;
@@ -80,8 +82,6 @@ class ListenSocket : public Socket
 
 		bool Create() { return Socket::Create(); }
 
-		bool Bind(const EndPoint &endpoint);
-
 		bool Listen(int backlog = 1024) { return listen(fd(), backlog) == 0; }
 
 		bool Accept(Socket &socket, EndPoint &endpoint, bool restart = true);
@@ -115,6 +115,7 @@ class UdpSocket : public DataSocket
 		bool Create() { return Socket::Create(); }
 
 		bool SendTo(const void *buf, size_t size, const EndPoint &endpoint);
+
 		bool ReceiveFrom(void * buf, size_t size, EndPoint &endpoint);
 };
 

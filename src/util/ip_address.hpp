@@ -32,6 +32,14 @@ class IPAddress
 		IPAddress(const IPAddress &address) = default;
 		IPAddress& operator=(const IPAddress &address) = default;
 
+		bool operator==(const IPAddress &address) const {
+			return address_ == address.address_;
+		}
+
+		bool operator!=(const IPAddress &address) const {
+			return !operator==(address);
+		}
+
 		void Clear() { address_.clear(); }
 		void Resize(size_t size) { address_.resize(size); }
 		void Print() const;

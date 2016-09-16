@@ -27,7 +27,7 @@ using namespace util;
 class TcpServer
 {
 	public:
-		TcpServer(const EndPoint &endpoint);
+		TcpServer(const EndPoint &endpoint):end_point_(endpoint) { }
 
 		bool Start();
 

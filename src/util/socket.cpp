@@ -48,7 +48,7 @@ bool Socket::Close()
 	return true;
 }
 
-bool ListenSocket::Bind(const EndPoint &endpoint)
+bool Socket::Bind(const EndPoint &endpoint)
 {
 	struct sockaddr sockaddr;
 	socklen_t len;
@@ -120,6 +120,7 @@ bool UdpSocket::ReceiveFrom(void *buf, size_t size, EndPoint &endpoint)
 	struct sockaddr sockaddr;
 	socklen_t socklen;
 	ssize_t len = recvfrom(fd(), buf, size, 0, &sockaddr, &socklen);
+	endpoint.SetAddressFrom(sockaddr, socklen);
 	if (len > 0)
 		return true;
 	return false;

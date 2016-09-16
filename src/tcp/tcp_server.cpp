@@ -18,10 +18,6 @@ namespace Onion {
 
 namespace tcp {
 
-TcpServer::TcpServer(const EndPoint &endpoint):end_point_(endpoint)
-{
-}
-
 bool TcpServer::Start()
 {
 	if (!listen_socket_.Create()) {
@@ -78,7 +74,6 @@ bool TcpServer::Serve()
 				ssize_t len = socket.Receive(recv_buffer_.Char(), recv_buffer_.Capacity());
 				if (len > 0) {
 					recv_buffer_.SetLength(static_cast<size_t>(len));
-					std::cout << recv_buffer_;
 					send_buffer_.Read(recv_buffer_.Char(), recv_buffer_.Length());
 					socket.Send(send_buffer_.Char(), send_buffer_.Length());
 				} else if (!len) {
@@ -97,9 +92,8 @@ bool TcpServer::Serve()
 
 bool TcpServer::Shut()
 {
-	listen_socket_.Close();
 	std::cout << "tcp服务器关闭 :)\n";
-	return true;
+	return listen_socket_.Close();
 }
 
 } // namespace tcp
