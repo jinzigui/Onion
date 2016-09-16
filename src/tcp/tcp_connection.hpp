@@ -33,6 +33,8 @@ class TcpConnection
 		bool Send(const char *buf);
 		bool Send(const std::string &buf);
 
+		bool Receive();
+
 		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
 		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
 

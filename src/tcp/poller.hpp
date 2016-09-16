@@ -10,6 +10,8 @@
 #ifndef _POLLER_HPP_
 #define _POLLER_HPP_
 
+#include <memory>
+
 #include "event.hpp"
 
 namespace Onion {
@@ -22,6 +24,7 @@ class Poller
 		static const int MaxFd = 1024;
 
 		Poller() = default;
+
 		virtual int  Poll() = 0;
 		virtual bool HasEvent(const Event &event) = 0;
 		virtual bool AddEvent(const Event &event) = 0;

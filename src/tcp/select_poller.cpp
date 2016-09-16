@@ -8,6 +8,7 @@
 **/
 
 #include <vector>
+#include <iostream>
 
 #include "select_poller.hpp"
 #include "../util/log.hpp"

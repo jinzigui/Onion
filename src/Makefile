@@ -1,6 +1,5 @@
 CPP 		 = g++
 CPPFLAGS = -std=c++11 -Wall -O
-DFLAGS   = $1
 
 DIR=util tcp
 OBJ=util/log.o util/string_op.o util/buffer.o util/ip_address.o util/end_point.o util/socket.o \
@@ -19,7 +18,7 @@ client:$(OBJ) ../test/client.cpp
 	$(CPP) $(CPPFLAGS) -o client $(OBJ) ../test/client.cpp
 
 server:$(OBJ) ../test/server.cpp
-	$(CPP) $(CPPFLAGS) -o server $(OBJ) ../test/server.cpp $1
+	$(CPP) $(CPPFLAGS) -DPOLL -o server $(OBJ) ../test/server.cpp
 
 tag:
 	cd .. && ctags -R --sort=yes -f .tags

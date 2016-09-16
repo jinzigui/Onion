@@ -24,7 +24,7 @@ class Socket
 		bool Create();
 
 	public:
-		Socket():fd_(-1) { }
+		Socket(int fd = -1):fd_(fd) { }
 
 		int fd() const { return fd_; }
 
@@ -33,6 +33,34 @@ class Socket
 		void SetFd(int fd);
 
 		bool Close();
+
+		template<typename T>
+		bool GetSockOpt(int level, int optname, T *optval, socklen_t *optlen) const {
+			return getsockopt(fd(), level, optname, optval, optlen) == 0;
+		}
+
+		template<typename T>
+		bool SetSockOpt(int level, int optname, const T &optval) {
+			socklen_t optlen = sizeof(optval);
+			return setsockopt(fd(), level, optname, &optval, optlen) == 0;
+		}
+
+		bool GetReuseAddress(int *val) {
+			socklen_t len;
+			return GetSockOpt(SOL_SOCKET, SO_REUSEADDR, val, &len);
+		}
+
+		bool SetReuseAddress(int val = 1) {
+			return SetSockOpt(SOL_SOCKET, SO_REUSEADDR, val);
+		}
+
+		bool GetKeepAlive(int *val) {
+			socklen_t len;
+			return GetSockOpt(SOL_SOCKET, SO_KEEPALIVE, val, &len);
+		}
+		bool SetKeepAlive(int val = 1) {
+			return SetSockOpt(SOL_SOCKET, SO_KEEPALIVE, val);
+		}
 
 		void Print() const;
 
@@ -79,9 +107,6 @@ class TcpSocket : public DataSocket
 		bool ShutDownReceive() { return shutdown(fd(), SHUT_WR) == 0; }
 
 		bool ShutDownRead() { return shutdown(fd(), SHUT_RD) == 0; }
-
-	private:
-
 };
 
 class UdpSocket : public DataSocket

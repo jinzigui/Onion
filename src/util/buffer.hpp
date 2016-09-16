@@ -12,6 +12,7 @@
 
 #include <string>
 #include <assert.h>
+#include <iostream>
 
 namespace Onion {
 
@@ -20,10 +21,11 @@ namespace util {
 class Buffer
 {
 	public:
-		Buffer():buffer_(nullptr) { }
-		Buffer(size_t capacity):buffer_(new char[capacity]), length_(0), capacity_(capacity) { }
+		Buffer(size_t capacity = 4096)
+		:buffer_(new char[capacity]), length_(0), capacity_(capacity) { }
 
 		Buffer& operator=(const Buffer &) = delete;
+
 		Buffer(const Buffer &) = delete;
 
 		char* Char() { return buffer_; }
@@ -35,21 +37,31 @@ class Buffer
 			assert(length < capacity_);
 			length_ = length;
 		}
+
 		size_t Capacity() const { return capacity_; }
+
+		bool SetCapacity(size_t capacity) {
+			if (capacity != Capacity()) {
+				capacity_ = capacity;
+				if (buffer_)
+					delete [] buffer_;
+				buffer_ = new char[capacity_];
+				if (!buffer_) return false;
+			}
+			return true;
+		}
 
 		bool Read(const char *buf, size_t len);
 		bool Write(char *buf, size_t &len);
 
-		void Swap(Buffer &buffer) {
-			std::swap(buffer_, buffer.buffer_);
-			std::swap(begin_, buffer.begin_);
-			std::swap(end_, buffer.end_);
-			std::swap(length_, buffer.length_);
-			std::swap(capacity_, buffer.capacity_);
-		}
-
 		~Buffer() {
 			if (buffer_) delete [] buffer_;
+		}
+
+		friend std::ostream& operator<<(std::ostream &os, const Buffer &buffer) {
+			os << "长度: " << buffer.length_ << std::endl;
+			os << "内容: " << buffer.buffer_ << std::endl;
+			return os;
 		}
 
 	private:
@@ -63,14 +75,5 @@ class Buffer
 } // namespace util
 
 } // namespace Onion
-namespace std {
-
-template<>
-inline void swap(Onion::util::Buffer &lhs, Onion::util::Buffer &rhs)
-{
-	lhs.Swap(rhs);
-}
-
-}
 
 #endif /* _BUFFER_HPP_ */

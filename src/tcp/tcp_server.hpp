@@ -45,7 +45,7 @@ class TcpServer
 		Buffer send_buffer_;
 		Buffer recv_buffer_;
 
-		std::unique_ptr<Poller> poller_;
+		std::shared_ptr<Poller> poller_;
 
 		OnSendCallBack on_send_ = nullptr;
 		OnSendCallBack on_recv_ = nullptr;

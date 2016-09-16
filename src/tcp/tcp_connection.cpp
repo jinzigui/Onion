@@ -27,19 +27,19 @@ TcpConnection::TcpConnection(const util::EndPoint &endpoint, const TcpOption &tc
 		WARNING("套接字连接失败 :(");
 		return ;
 	}
-	Buffer tmp1(tcp_option_.send_buffer_size());
-	std::swap(send_buffer_, tmp1);
-	Buffer tmp2(tcp_option_.recv_buffer_size());
-	std::swap(recv_buffer_, tmp2);
+	send_buffer_.SetCapacity(tcp_option_.send_buffer_size());
+	recv_buffer_.SetCapacity(tcp_option_.recv_buffer_size());
 	connected_ = true;
 }
 
 bool TcpConnection::Send(const char *buf, size_t len)
 {
 	send_buffer_.Read(buf, len);
+	std::cout << socket_.fd() << std::endl;
 	if (socket_.Send(buf, len) < 0)
 		return false;
-	on_send_(len);
+	if (on_send_)
+		on_send_(len);
 	return true;
 }
 
@@ -57,6 +57,16 @@ bool TcpConnection::Close()
 {
 	connected_ = false;
 	return socket_.Close();
+}
+
+bool TcpConnection::Receive()
+{
+	ssize_t len = socket_.Receive(recv_buffer_.Char(), recv_buffer_.Capacity());
+	if (len > 0 && on_recv_) {
+		on_recv_(len);
+		return true;
+	}
+	return false;
 }
 
 } // namespace tcp

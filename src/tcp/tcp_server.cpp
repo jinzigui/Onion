@@ -20,16 +20,16 @@ namespace tcp {
 
 TcpServer::TcpServer(const EndPoint &endpoint):end_point_(endpoint)
 {
-	Buffer tmp1(4096);
-	std::swap(send_buffer_, tmp1);
-	Buffer tmp2(4096);
-	std::swap(recv_buffer_, tmp1);
 }
 
 bool TcpServer::Start()
 {
 	if (!listen_socket_.Create()) {
 		WARNING("tcp服务器监听套接字创建失败 :(");
+		return false;
+	}
+	if (!listen_socket_.SetReuseAddress()) {
+		WARNING("tcp服务器重复使用地址失败 :(");
 		return false;
 	}
 	if (!listen_socket_.Bind(end_point_)) {
@@ -41,9 +41,9 @@ bool TcpServer::Start()
 		return false;
 	}
 #ifdef POLL
-	poller_.reset(new PollPoller());
+	poller_ = std::shared_ptr<Poller>(new SelectPoller());
 #else
-	poller_.reset(new SelectPoller());
+	poller_ = std::shared_ptr<Poller>(new PollPoller());
 #endif
 
 	if (!poller_.get()) {
@@ -55,17 +55,11 @@ bool TcpServer::Start()
 
 bool TcpServer::Serve()
 {
-	Event listen(listen_socket_.fd(), Event::Type::kRead);
 	std::vector<int> client(SelectPoller::MaxFd, -1);
 	int max_client = 0;
+	Event listen(listen_socket_.fd(), Event::Type::kRead);
+	poller_->AddEvent(listen);
 	for (;;) {
-		#ifdef POLL
-			poller_.reset(new PollPoller());
-		#else
-			poller_.reset(new SelectPoller());
-		#endif
-			poller_->AddEvent(Event(listen_socket_.fd(), Event::Type::kRead));
-
 		int ready = poller_->Poll();
 		if (poller_->HasEvent(listen)) {
 			TcpSocket socket;
@@ -77,21 +71,22 @@ bool TcpServer::Serve()
 			if (!(--ready)) continue;
 		}
 		for (int i = 0; i < max_client; ++i) {
-			TcpSocket socket;
 			if (client[i] < 0) continue;
+			TcpSocket socket;
 			socket.SetFd(client[i]);
 			if (poller_->HasEvent(Event(socket.fd(), Event::Type::kRead))) {
 				ssize_t len = socket.Receive(recv_buffer_.Char(), recv_buffer_.Capacity());
 				if (len > 0) {
 					recv_buffer_.SetLength(static_cast<size_t>(len));
+					std::cout << recv_buffer_;
 					send_buffer_.Read(recv_buffer_.Char(), recv_buffer_.Length());
 					socket.Send(send_buffer_.Char(), send_buffer_.Length());
 				} else if (!len) {
-					socket.Close();
 					client[i] = -1;
 					poller_->RemoveEvent(Event(socket.fd(), Event::Type::kRead));
+					socket.Close();
 				} else {
-					WARNING("not implemented :(");
+					return false;
 				}
 			}
 			if (!(--ready)) break;

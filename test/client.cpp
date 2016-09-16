@@ -8,6 +8,7 @@
 **/
 
 #include <iostream>
+#include <string>
 
 #include "../src/util/log.hpp"
 #include "../src/tcp/tcp_client.hpp"
@@ -30,7 +31,12 @@ int main(int argc, char **argv)
 	con->OnSend([] (size_t len) {
 		std::cout << "sending " << len << std::endl;
 	});
-	con->Send("hello world :)");
+	con->OnRecv([] (size_t len) {
+		std::cout << "receiving " << len << std::endl;
+	});
+	con->Send("hello world");
+	if (!con->Receive())
+		return -1;
 	client.CloseConnection(id);
 	return 0;
 }

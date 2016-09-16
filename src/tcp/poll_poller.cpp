@@ -7,6 +7,8 @@
  *    > Created Time: 2016-09-13 19:34:58
 **/
 
+#include <iostream>
+
 #include "poll_poller.hpp"
 #include "../util/log.hpp"
 
@@ -18,7 +20,7 @@ using namespace util;
 
 int PollPoller::Poll()
 {
-	return poll(poll_fds_, index_ + 1, -1);
+	return poll(poll_fds_, index_, -1);
 }
 
 bool PollPoller::HasEvent(const Event &event)

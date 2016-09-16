@@ -20,7 +20,10 @@ int main(int argc, char **argv)
 	server.OnRecv([] (size_t len) {
 		std::cout << "receive " << len << std::endl;
 	});
-	server.Start();
+	if (!server.Start()) {
+		WARNING("tcp服务器启动失败 :(");
+		return 0;
+	}
 	server.Serve();
 	server.Shut();
 	return 0;
