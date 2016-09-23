@@ -34,10 +34,12 @@ bool UdpServer::Serve()
 	EndPoint client;
 	while (1) {
 		ssize_t len = udp_socket_.ReceiveFrom(recv_buffer_.Char(), recv_buffer_.Capacity(), client);
+		if (on_recv_) on_recv_(len);
 		if (!len) break;
 		recv_buffer_.SetLength(static_cast<size_t>(len));
 		send_buffer_.Read(recv_buffer_.Char(), recv_buffer_.Length());
 		udp_socket_.SendTo(send_buffer_.Char(), send_buffer_.Length(), client);
+		if (on_send_) on_send_(len);
 	}
 	return true;
 }

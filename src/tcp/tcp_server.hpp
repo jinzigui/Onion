@@ -12,11 +12,10 @@
 
 #include <memory>
 
-#include "../util/log.hpp"
 #include "../util/socket.hpp"
 #include "../util/buffer.hpp"
 #include "poller.hpp"
-#include "func.hpp"
+#include "../util/func.hpp"
 
 namespace Onion {
 

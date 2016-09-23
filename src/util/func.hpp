@@ -14,12 +14,12 @@
 
 namespace Onion {
 
-namespace tcp {
+namespace util {
 
 using OnSendCallBack = std::function<void(size_t)>;
 using OnRecvCallBack = std::function<void(size_t)>;
 
-} // namespace tcp
+} // namespace util
 
 } // namespace Onion
 

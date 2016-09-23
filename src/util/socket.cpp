@@ -18,10 +18,10 @@ namespace Onion {
 
 namespace util {
 
-bool Socket::Create()
+bool Socket::Create(int level, int protocol, int flag)
 {
 	Close();
-	fd_ = socket(AF_INET, SOL_SOCKET, 0);
+	fd_ = socket(level, protocol, flag);
 	return IsValid();
 }
 
@@ -104,26 +104,22 @@ ssize_t DataSocket::Receive(void *buf, size_t size, int flags)
 	}
 }
 
-bool UdpSocket::SendTo(const void *buf, size_t size, const EndPoint &endpoint)
+ssize_t UdpSocket::SendTo(const void *buf, size_t size, const EndPoint &endpoint)
 {
 	struct sockaddr sockaddr;
 	socklen_t socklen;
 	endpoint.SetAddressTo(sockaddr, socklen);
 	ssize_t len = sendto(fd(), buf, size, 0, &sockaddr, socklen);
-	if (len > 0)
-		return true;
-	return false;
+	return len;
 }
 
-bool UdpSocket::ReceiveFrom(void *buf, size_t size, EndPoint &endpoint)
+ssize_t UdpSocket::ReceiveFrom(void *buf, size_t size, EndPoint &endpoint)
 {
 	struct sockaddr sockaddr;
 	socklen_t socklen;
 	ssize_t len = recvfrom(fd(), buf, size, 0, &sockaddr, &socklen);
 	endpoint.SetAddressFrom(sockaddr, socklen);
-	if (len > 0)
-		return true;
-	return false;
+	return len;
 }
 
 } // namespace util

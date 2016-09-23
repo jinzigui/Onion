@@ -21,7 +21,7 @@ namespace util {
 class Socket
 {
 	protected:
-		bool Create();
+	bool Create(int level = AF_INET, int protocol = SOCK_STREAM, int flag = 0);
 
 	public:
 		Socket(int fd = -1):fd_(fd) { }
@@ -112,11 +112,11 @@ class TcpSocket : public DataSocket
 class UdpSocket : public DataSocket
 {
 	public:
-		bool Create() { return Socket::Create(); }
+		bool Create() { return Socket::Create(AF_INET, SOCK_DGRAM); }
 
-		bool SendTo(const void *buf, size_t size, const EndPoint &endpoint);
+		ssize_t SendTo(const void *buf, size_t size, const EndPoint &endpoint);
 
-		bool ReceiveFrom(void * buf, size_t size, EndPoint &endpoint);
+		ssize_t ReceiveFrom(void * buf, size_t size, EndPoint &endpoint);
 };
 
 } // namespace util

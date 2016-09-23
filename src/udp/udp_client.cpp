@@ -27,7 +27,9 @@ UdpClient::UdpClient(const EndPoint &endpoint, const UdpOption &udpoption)
 
 bool UdpClient::SendTo(const char *buf, size_t len)
 {
-	return udp_socket_.SendTo(buf, len, end_point_);
+	ssize_t size = udp_socket_.SendTo(buf, len, end_point_);
+	if (on_send_) on_send_(size);
+	return (size > 0) ? true : false;
 }
 
 bool UdpClient::SendTo(const std::string &str)
@@ -44,9 +46,11 @@ bool UdpClient::SendTo(const char *buf)
 bool UdpClient::ReceiveFrom()
 {
 	EndPoint endpoint;
-	bool flag = udp_socket_.ReceiveFrom(recv_buffer_.Char(), recv_buffer_.Capacity(), endpoint);
-	if (endpoint != end_point_) return false;
-	return flag;
+	ssize_t len = udp_socket_.ReceiveFrom(recv_buffer_.Char(), recv_buffer_.Capacity(), endpoint);
+	if (endpoint != end_point_ || len < 0) return false;
+	recv_buffer_.SetLength(len);
+	if (on_recv_) on_recv_(len);
+	return (len > 0) ? true : false;
 }
 
 } // namespace udp

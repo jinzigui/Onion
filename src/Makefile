@@ -18,8 +18,14 @@ log:$(OBJ) ../test/log.cpp
 client:$(OBJ) ../test/client.cpp
 	$(CPP) $(CPPFLAGS) -o client $(OBJ) ../test/client.cpp
 
+udp_client:$(OBJ) ../test/udp_client.cpp
+	$(CPP) $(CPPFLAGS) -o udp_client $(OBJ) ../test/udp_client.cpp
+
 server:$(OBJ) ../test/server.cpp
 	$(CPP) $(CPPFLAGS) -DPOLL -o server $(OBJ) ../test/server.cpp
+
+udp_server:$(OBJ) ../test/udp_server.cpp
+	$(CPP) $(CPPFLAGS) -o udp_server $(OBJ) ../test/udp_server.cpp
 
 tag:
 	cd .. && ctags -R --sort=yes -f .tags
@@ -28,4 +34,4 @@ clean:
 	for dir in $(DIR); do \
 		(cd $$dir && rm *.o) || continue ; \
 	done
-	rm Onion log client server logging .tags
+	rm Onion log client server udp_client udp_server logging .tags

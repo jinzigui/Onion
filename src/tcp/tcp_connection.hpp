@@ -13,8 +13,8 @@
 #include "../util/socket.hpp"
 #include "../util/buffer.hpp"
 #include "../util/end_point.hpp"
+#include "../util/func.hpp"
 #include "tcp_option.hpp"
-#include "func.hpp"
 
 namespace Onion {
 

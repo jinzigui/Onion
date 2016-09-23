@@ -13,10 +13,12 @@
 #include "../util/socket.hpp"
 #include "../util/end_point.hpp"
 #include "../util/buffer.hpp"
+#include "../util/func.hpp"
 
 namespace Onion {
 
 namespace udp {
+
 
 using namespace util;
 
@@ -31,12 +33,19 @@ class UdpServer
 
 		bool Shut();
 
+		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
+		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
+
 	private:
 		UdpSocket udp_socket_;
 		EndPoint end_point_;
 
 		Buffer send_buffer_;
 		Buffer recv_buffer_;
+
+		OnSendCallBack on_send_ = nullptr;
+		OnRecvCallBack on_recv_ = nullptr;
+
 };
 
 } // namespace udp

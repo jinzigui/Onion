@@ -43,7 +43,6 @@ bool EndPoint::SetAddressFrom(const struct sockaddr &sockaddr, const socklen_t l
 		port_ = 0;
 		return false;
 	};
-
 	switch (len) {
 		case sizeof (struct sockaddr_in): {
 			auto in_address = reinterpret_cast<const struct sockaddr_in *>(&sockaddr);
