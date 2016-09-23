@@ -8,7 +8,6 @@
 **/
 
 #include <iostream>
-#include <string>
 
 #include "../src/util/log.hpp"
 #include "../src/tcp/tcp_client.hpp"
