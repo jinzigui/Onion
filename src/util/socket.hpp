@@ -10,7 +10,9 @@
 #ifndef _SOCKET_HPP_
 #define _SOCKET_HPP_
 
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/sctp.h>
 
 #include "end_point.hpp"
 
@@ -37,31 +39,31 @@ class Socket
 		bool Bind(const EndPoint &endpoint);
 
 		template<typename T>
-		bool GetSockOpt(int level, int optname, T *optval, socklen_t *optlen) const {
+		bool GetOption(int level, int optname, T *optval, socklen_t *optlen) const {
 			return getsockopt(fd(), level, optname, optval, optlen) == 0;
 		}
 
 		template<typename T>
-		bool SetSockOpt(int level, int optname, const T &optval) {
+		bool SetOption(int level, int optname, const T &optval) {
 			socklen_t optlen = sizeof(optval);
 			return setsockopt(fd(), level, optname, &optval, optlen) == 0;
 		}
 
 		bool GetReuseAddress(int *val) {
 			socklen_t len;
-			return GetSockOpt(SOL_SOCKET, SO_REUSEADDR, val, &len);
+			return GetOption(SOL_SOCKET, SO_REUSEADDR, val, &len);
 		}
 
 		bool SetReuseAddress(int val = 1) {
-			return SetSockOpt(SOL_SOCKET, SO_REUSEADDR, val);
+			return SetOption(SOL_SOCKET, SO_REUSEADDR, val);
 		}
 
 		bool GetKeepAlive(int *val) {
 			socklen_t len;
-			return GetSockOpt(SOL_SOCKET, SO_KEEPALIVE, val, &len);
+			return GetOption(SOL_SOCKET, SO_KEEPALIVE, val, &len);
 		}
 		bool SetKeepAlive(int val = 1) {
-			return SetSockOpt(SOL_SOCKET, SO_KEEPALIVE, val);
+			return SetOption(SOL_SOCKET, SO_KEEPALIVE, val);
 		}
 
 		void Print() const;
@@ -117,6 +119,21 @@ class UdpSocket : public DataSocket
 		ssize_t SendTo(const void *buf, size_t size, const EndPoint &endpoint);
 
 		ssize_t ReceiveFrom(void * buf, size_t size, EndPoint &endpoint);
+};
+
+class SctpSocket : public Socket
+{
+	public:
+		bool Listen(int backlog = 1024) { return listen(fd(), backlog); }
+
+		bool Create() { return Socket::Create(AF_INET, SOCK_SEQPACKET, IPPROTO_SCTP); }
+
+		ssize_t SendMsg(const void *buf, size_t size, const EndPoint &endpoint, uint32_t ppid,
+			uint32_t flags, uint16_t stream, uint32_t timetolive = 0, uint32_t context = 0);
+
+		ssize_t ReceiveMsg(void *buf, size_t size, EndPoint &endpoint,
+			struct sctp_sndrcvinfo *sinfo, int *msg_flags);
+
 };
 
 } // namespace util

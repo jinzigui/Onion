@@ -122,6 +122,27 @@ ssize_t UdpSocket::ReceiveFrom(void *buf, size_t size, EndPoint &endpoint)
 	return len;
 }
 
+ssize_t SctpSocket::SendMsg(const void *buf, size_t size, const EndPoint &endpoint,
+	uint32_t ppid, uint32_t flags, uint16_t stream, uint32_t timetolive, uint32_t context)
+{
+	struct sockaddr sockaddr;
+	socklen_t socklen;
+	endpoint.SetAddressTo(sockaddr, socklen);
+	ssize_t len = sctp_sendmsg(fd(), buf, size, &sockaddr, socklen,
+		ppid, flags, stream, timetolive, context);
+	return len;
+}
+
+ssize_t SctpSocket::ReceiveMsg(void *buf, size_t size, EndPoint &endpoint,
+	struct sctp_sndrcvinfo *sinfo, int *msg_flags)
+{
+	struct sockaddr sockaddr;
+	socklen_t socklen;
+	ssize_t len = sctp_recvmsg(fd(), buf, size, &sockaddr, &socklen, sinfo, msg_flags);
+	endpoint.SetAddressFrom(sockaddr, socklen);
+	return len;
+}
+
 } // namespace util
 
 } // namespace Onion

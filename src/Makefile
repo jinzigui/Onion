@@ -1,14 +1,16 @@
 CPP 		 = g++
 CPPFLAGS = -std=c++11 -Wall -O
+LDFLAGS  = -lsctp
 
-DIR=util tcp udp
+DIR=util tcp udp sctp
 OBJ=util/log.o util/string_op.o util/buffer.o util/ip_address.o util/end_point.o util/socket.o \
 		tcp/connection_id.o tcp/tcp_option.o tcp/tcp_connection.o tcp/tcp_client.o tcp/tcp_server.o \
 		tcp/event.o tcp/poller.o tcp/select_poller.o tcp/poll_poller.o\
-		udp/udp_server.o udp/udp_client.o udp/udp_option.o
+		udp/udp_server.o udp/udp_client.o udp/udp_option.o \
+		sctp/sctp_server.o
 
 Onion:$(OBJ) Onion.cpp
-	$(CPP) $(CPPFLAGS) -o Onion $(OBJ) Onion.cpp
+	$(CPP) $(CPPFLAGS) -o Onion $(OBJ) Onion.cpp $(LDFLAGS)
 
 all:Onion log client server
 
