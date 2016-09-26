@@ -22,11 +22,10 @@ namespace util {
 
 class Socket
 {
-	protected:
-	bool Create(int level = AF_INET, int protocol = SOCK_STREAM, int flag = 0);
-
 	public:
 		Socket(int fd = -1):fd_(fd) { }
+
+		bool Create(int level = AF_INET, int protocol = SOCK_STREAM, int flag = 0);
 
 		int fd() const { return fd_; }
 
@@ -124,9 +123,9 @@ class UdpSocket : public DataSocket
 class SctpSocket : public Socket
 {
 	public:
-		bool Listen(int backlog = 1024) { return listen(fd(), backlog); }
-
 		bool Create() { return Socket::Create(AF_INET, SOCK_SEQPACKET, IPPROTO_SCTP); }
+
+		bool Listen(int backlog = 1024) { return listen(fd(), backlog) == 0; }
 
 		ssize_t SendMsg(const void *buf, size_t size, const EndPoint &endpoint, uint32_t ppid,
 			uint32_t flags, uint16_t stream, uint32_t timetolive = 0, uint32_t context = 0);

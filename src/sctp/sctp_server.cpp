@@ -48,7 +48,10 @@ bool SctpServer::Serve()
 		EndPoint endpoint;
 		ssize_t len = sctp_socket_.ReceiveMsg(recv_buffer_.Char(), recv_buffer_.Capacity(),
 			endpoint, &info, &flag);
-		if (len) WARNING("sctp服务器监听接收失败 :(");
+		if (len < 0) {
+			WARNING("sctp服务器接收信息失败 :(");
+			return false;
+		}
 		if (on_recv_) on_recv_(len);
 		recv_buffer_.SetLength(len);
 		send_buffer_.Read(recv_buffer_.Char(), recv_buffer_.Length());
@@ -57,6 +60,12 @@ bool SctpServer::Serve()
 		if (on_send_) on_send_(len);
 	}
 	return true;
+}
+
+bool SctpServer::Shut()
+{
+	std::cout << "sctp服务器关闭 :)\n";
+	return sctp_socket_.Close();
 }
 
 } // namespace sctp

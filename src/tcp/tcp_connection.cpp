@@ -17,7 +17,7 @@ namespace Onion {
 namespace tcp {
 
 TcpConnection::TcpConnection(const util::EndPoint &endpoint, const TcpOption &tcpoption)
-:connected_(false), tcp_option_(tcpoption), end_point_(endpoint)
+:Connection(endpoint), tcp_option_(tcpoption)
 {
 	if (!socket_.Create()) {
 		WARNING("套接字创建失败 :(");
@@ -56,6 +56,7 @@ bool TcpConnection::Send(const std::string &buf)
 bool TcpConnection::Close()
 {
 	connected_ = false;
+	std::cout << "tcp连接关闭 :)\n";
 	return socket_.Close();
 }
 

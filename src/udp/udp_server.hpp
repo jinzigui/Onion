@@ -11,9 +11,7 @@
 #define _UDP_HPP_
 
 #include "../util/socket.hpp"
-#include "../util/end_point.hpp"
-#include "../util/buffer.hpp"
-#include "../util/func.hpp"
+#include "../util/server.hpp"
 
 namespace Onion {
 
@@ -21,10 +19,10 @@ namespace udp {
 
 using namespace util;
 
-class UdpServer
+class UdpServer : public Server
 {
 	public:
-		UdpServer(const EndPoint &endpoint):end_point_(endpoint) { }
+		UdpServer(const EndPoint &endpoint):Server(endpoint) { }
 
 		bool Start();
 
@@ -32,19 +30,8 @@ class UdpServer
 
 		bool Shut();
 
-		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
-		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
-
 	private:
 		UdpSocket udp_socket_;
-		EndPoint end_point_;
-
-		Buffer send_buffer_;
-		Buffer recv_buffer_;
-
-		OnSendCallBack on_send_ = nullptr;
-		OnRecvCallBack on_recv_ = nullptr;
-
 };
 
 } // namespace udp

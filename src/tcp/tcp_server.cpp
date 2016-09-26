@@ -38,9 +38,9 @@ bool TcpServer::Start()
 		return false;
 	}
 #ifdef POLL
-	poller_ = std::shared_ptr<Poller>(new SelectPoller());
-#else
 	poller_ = std::shared_ptr<Poller>(new PollPoller());
+#else
+	poller_ = std::shared_ptr<Poller>(new SelectPoller());
 #endif
 
 	if (!poller_.get()) {
@@ -55,8 +55,8 @@ bool TcpServer::Serve()
 	std::vector<int> client(SelectPoller::MaxFd, -1);
 	int max_client = 0;
 	Event listen(listen_socket_.fd(), Event::Type::kRead);
-	poller_->AddEvent(listen);
 	for (;;) {
+		poller_->AddEvent(listen);
 		int ready = poller_->Poll();
 		if (poller_->HasEvent(listen)) {
 			TcpSocket socket;
@@ -77,12 +77,10 @@ bool TcpServer::Serve()
 					recv_buffer_.SetLength(static_cast<size_t>(len));
 					send_buffer_.Read(recv_buffer_.Char(), recv_buffer_.Length());
 					socket.Send(send_buffer_.Char(), send_buffer_.Length());
-				} else if (!len) {
+				} else {
 					client[i] = -1;
 					poller_->RemoveEvent(Event(socket.fd(), Event::Type::kRead));
 					socket.Close();
-				} else {
-					return false;
 				}
 			}
 			if (!(--ready)) break;

@@ -44,6 +44,7 @@ bool TcpClient::CloseConnection(ConnectionId id)
 	if (con) {
 		con->Close();
 		contexts_.erase(id);
+		return true;
 	}
 	return false;
 }

@@ -11,8 +11,7 @@
 #define _SCTP_SERVER_HPP_
 
 #include "../util/socket.hpp"
-#include "../util/func.hpp"
-#include "../util/buffer.hpp"
+#include "../util/server.hpp"
 
 namespace Onion {
 
@@ -20,28 +19,19 @@ namespace sctp {
 
 using namespace util;
 
-class SctpServer
+class SctpServer : public Server
 {
 	public:
-		SctpServer(const EndPoint &endpoint):end_point_(endpoint) { }
+		SctpServer(const EndPoint &endpoint):Server(endpoint) { }
 
-		bool Start();
+		bool Start() override;
 
-		bool Serve();
+		bool Serve() override;
 
-		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
-		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
+		bool Shut() override;
 
 	private:
-		EndPoint end_point_;
-
 		SctpSocket sctp_socket_;
-
-		Buffer send_buffer_;
-		Buffer recv_buffer_;
-
-		OnSendCallBack on_send_ = nullptr;
-		OnRecvCallBack on_recv_ = nullptr;
 };
 
 } // namespace sctp

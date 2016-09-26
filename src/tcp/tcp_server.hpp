@@ -13,9 +13,8 @@
 #include <memory>
 
 #include "../util/socket.hpp"
-#include "../util/buffer.hpp"
+#include "../util/server.hpp"
 #include "poller.hpp"
-#include "../util/func.hpp"
 
 namespace Onion {
 
@@ -23,10 +22,10 @@ namespace tcp {
 
 using namespace util;
 
-class TcpServer
+class TcpServer : public Server
 {
 	public:
-		TcpServer(const EndPoint &endpoint):end_point_(endpoint) { }
+		TcpServer(const EndPoint &endpoint):Server(endpoint) { }
 
 		bool Start();
 
@@ -34,20 +33,10 @@ class TcpServer
 
 		bool Shut();
 
-		void OnRecv(const OnRecvCallBack &cb) { on_recv_ = cb; }
-		void OnSend(const OnSendCallBack &cb) { on_send_ = cb; }
-
 	private:
 		ListenSocket listen_socket_;
-		EndPoint     end_point_;
-
-		Buffer send_buffer_;
-		Buffer recv_buffer_;
 
 		std::shared_ptr<Poller> poller_;
-
-		OnSendCallBack on_send_ = nullptr;
-		OnSendCallBack on_recv_ = nullptr;
 };
 
 } // namespace tcp

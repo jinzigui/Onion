@@ -15,19 +15,19 @@ Onion:$(OBJ) Onion.cpp
 all:Onion log client server
 
 log:$(OBJ) ../test/log.cpp
-	$(CPP) $(CPPFLAGS) -o log $(OBJ) ../test/log.cpp
+	$(CPP) $(CPPFLAGS) -o log $(OBJ) ../test/log.cpp $(LDFLAGS)
 
 client:$(OBJ) ../test/client.cpp
-	$(CPP) $(CPPFLAGS) -o client $(OBJ) ../test/client.cpp
+	$(CPP) $(CPPFLAGS) -o client $(OBJ) ../test/client.cpp $(LDFLAGS)
 
 udp_client:$(OBJ) ../test/udp_client.cpp
-	$(CPP) $(CPPFLAGS) -o udp_client $(OBJ) ../test/udp_client.cpp
+	$(CPP) $(CPPFLAGS) -o udp_client $(OBJ) ../test/udp_client.cpp $(LDFLAGS)
 
 server:$(OBJ) ../test/server.cpp
-	$(CPP) $(CPPFLAGS) -DPOLL -o server $(OBJ) ../test/server.cpp
+	$(CPP) $(CPPFLAGS) -DPOLL -o server $(OBJ) ../test/server.cpp $(LDFLAGS)
 
 udp_server:$(OBJ) ../test/udp_server.cpp
-	$(CPP) $(CPPFLAGS) -o udp_server $(OBJ) ../test/udp_server.cpp
+	$(CPP) $(CPPFLAGS) -o udp_server $(OBJ) ../test/udp_server.cpp $(LDFLAGS)
 
 tag:
 	cd .. && ctags -R --sort=yes -f .tags
